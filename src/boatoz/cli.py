@@ -3,7 +3,7 @@
 import argparse
 import json
 import os
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 
 import pandas as pd
@@ -33,9 +33,69 @@ def main():
             command.add_argument("--recent", type=int, default=12)
         if name == "plot":
             command.add_argument("--output", default="output/motor-scatter.png")
+    tok = sub.add_parser("tokoname", help="常滑の20秒間隔収集と観測集計")
+    actions = tok.add_subparsers(dest="action", required=True)
+    for name in ["plan", "collect"]:
+        command = actions.add_parser(name)
+        command.add_argument("--date", type=date.fromisoformat, required=True)
+        command.add_argument("--race", type=int, required=True)
+        command.add_argument("--deadline", type=datetime.fromisoformat, required=True)
+        command.add_argument("--start-at", type=datetime.fromisoformat)
+        command.add_argument(
+            "--pages",
+            nargs="+",
+            choices=["odds", "before", "entries"],
+            default=["odds", "before", "entries"],
+        )
+        command.add_argument("--output", type=Path, default=Path("output/tokoname"))
+        command.add_argument("--max-cycles", type=int)
+    summary = actions.add_parser("summary")
+    summary.add_argument("log", type=Path)
+    summary.add_argument("--output", type=Path, default=Path("output/tokoname-summary.csv"))
+    export = actions.add_parser("export", help="3種類の観測をCSVへ変換")
+    export.add_argument("log", type=Path)
+    export.add_argument("--output-dir", type=Path, default=Path("output/tokoname-csv"))
+    replay = actions.add_parser("replay", help="保存HTMLのオフライン解析")
+    replay.add_argument("html", type=Path)
+    replay.add_argument("--date", type=date.fromisoformat, required=True)
+    replay.add_argument("--race", type=int, required=True)
+    replay.add_argument("--page", choices=["odds", "before", "entries"], required=True)
     args = parser.parse_args()
     try:
-        if args.command == "download":
+        if args.command == "tokoname":
+            from .polling import Config, collect
+            from .tokoname import export_observations, parse_page, summarize_observations
+
+            if args.action == "export":
+                print(
+                    json.dumps(export_observations(args.log, args.output_dir), ensure_ascii=False)
+                )
+            elif args.action == "summary":
+                result = summarize_observations(args.log)
+                args.output.parent.mkdir(parents=True, exist_ok=True)
+                result.to_csv(args.output, index=False)
+                print(f"{len(result)} combinations -> {args.output}")
+            elif args.action == "replay":
+                print(
+                    json.dumps(
+                        parse_page(args.html.read_bytes(), args.date, args.race, args.page),
+                        ensure_ascii=False,
+                        indent=2,
+                    )
+                )
+            else:
+                config = Config(
+                    args.date,
+                    args.race,
+                    args.deadline,
+                    args.output,
+                    tuple(args.pages),
+                    args.start_at,
+                    args.max_cycles,
+                )
+                result = config.plan() if args.action == "plan" else collect(config)
+                print(json.dumps(result, ensure_ascii=False, indent=2))
+        elif args.command == "download":
             print(
                 json.dumps(
                     download(args.start, args.end or args.start, args.dest, args.interval),
