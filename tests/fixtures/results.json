@@ -1,0 +1,54 @@
+{
+  "date": "2026-01-01",
+  "races": [
+    {
+      "date": "2026-01-01",
+      "stadium_number": 9,
+      "number": 1,
+      "boats": [
+        {
+          "racer_boat_number": 1,
+          "racer_number": 9001,
+          "racer_name": "架空選手1",
+          "racer_place_number": 1,
+          "racer_start_timing": 0.15
+        },
+        {
+          "racer_boat_number": 2,
+          "racer_number": 9002,
+          "racer_name": "架空選手2",
+          "racer_place_number": 2,
+          "racer_start_timing": 0.15
+        },
+        {
+          "racer_boat_number": 3,
+          "racer_number": 9003,
+          "racer_name": "架空選手3",
+          "racer_place_number": 3,
+          "racer_start_timing": 0.15
+        },
+        {
+          "racer_boat_number": 4,
+          "racer_number": 9004,
+          "racer_name": "架空選手4",
+          "racer_place_number": 4,
+          "racer_start_timing": 0.15
+        },
+        {
+          "racer_boat_number": 5,
+          "racer_number": 9005,
+          "racer_name": "架空選手5",
+          "racer_place_number": 5,
+          "racer_start_timing": 0.15
+        },
+        {
+          "racer_boat_number": 6,
+          "racer_number": 9006,
+          "racer_name": "架空選手6",
+          "racer_place_number": 6,
+          "racer_start_timing": 0.15
+        }
+      ]
+    }
+  ]
+}

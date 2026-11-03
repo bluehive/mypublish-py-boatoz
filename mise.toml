@@ -1,0 +1,12 @@
+[tools]
+python = "3.12"
+[tasks.test]
+run = "python -m pytest -q"
+[tasks."book:build"]
+run = "python scripts/build_book.py"
+[tasks."show:tsu"]
+run = "boatoz show data/sample_races.csv --venue tsu"
+[tasks."plot:scatter"]
+run = "boatoz plot data/sample_races.csv"
+[tasks."model:predict"]
+run = "boatoz predict data/sample_races.csv"

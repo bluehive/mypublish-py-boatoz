@@ -1,0 +1,18 @@
+title: "Pythonで学ぶボートレース統計入門"
+summary: "pandasでデータ収集・集計・可視化・予測検証を学ぶ初心者向け実習書"
+topics: [python, pandas, 統計学, データ分析]
+published: false
+price: 0
+chapters:
+  - intro
+  - ch01-basics
+  - ch02-data-gathering
+  - ch03-pandas-basics
+  - ch04-pandas-analysis
+  - ch05-visualization
+  - ch06-prediction-model
+  - appendix-a-source-code
+  - appendix-b-glossary
+  - appendix-c-debugging
+  - appendix-d-automation
+  - appendix-e-curl

@@ -1,0 +1,6 @@
+recursive-include books *.md *.yaml
+recursive-include code *.py
+recursive-include data *.csv *.md
+recursive-include scripts *.py
+recursive-include tests *.py *.json
+include mise.toml
